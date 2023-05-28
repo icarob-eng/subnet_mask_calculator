@@ -13,6 +13,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(primarySwatch: Colors.indigo),
+      darkTheme: ThemeData(colorScheme: const ColorScheme.dark(
+        primary: Color.fromARGB(255, 25, 40, 120),
+        secondary: Color.fromARGB(255, 25, 40, 120),
+      )),
       title: 'Subnet Calculator',
       initialRoute: '/input',
       routes: {

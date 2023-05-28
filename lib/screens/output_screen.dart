@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:subnet_mask_calculator/components/components.dart';
 
 class OutputScreen extends StatefulWidget {
   const OutputScreen({super.key});
@@ -7,39 +8,129 @@ class OutputScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _OutputScreen();
 }
 
-class _OutputScreen extends State<StatefulWidget>{
+class _OutputScreen extends State<StatefulWidget> {
+  List<Widget> cards = [];
+
+
+  @override
+  void initState() {
+    super.initState();
+
+    // todo: calcular dados de rede
+    cards.add(const SubnetCard(
+        subnetNumber: 666,
+        subnetIp: '10.0.0.0',
+        totalIps: 8001,
+        usableIps: 7999,
+        prefix: '/69',
+        mask: '10.0.0.0',
+        firstHostIp: '10.0.0.0',
+        lastHostIp: '10.0.0.0',
+        broadcastIp: '10.0.0.0',
+    ));
+    cards.add(const SubnetCard(
+        subnetNumber: 666,
+        subnetIp: '10.0.0.0',
+        totalIps: 8001,
+        usableIps: 7999,
+        prefix: '/69',
+        mask: '10.0.0.0',
+        firstHostIp: '10.0.0.0',
+        lastHostIp: '10.0.0.0',
+        broadcastIp: '10.0.0.0',
+    ));
+    cards.add(const SubnetCard(
+        subnetNumber: 666,
+        subnetIp: '10.0.0.0',
+        totalIps: 8001,
+        usableIps: 7999,
+        prefix: '/69',
+        mask: '10.0.0.0',
+        firstHostIp: '10.0.0.0',
+        lastHostIp: '10.0.0.0',
+        broadcastIp: '10.0.0.0',
+    ));
+    cards.add(const SubnetCard(
+        subnetNumber: 666,
+        subnetIp: '10.0.0.0',
+        totalIps: 8001,
+        usableIps: 7999,
+        prefix: '/69',
+        mask: '10.0.0.0',
+        firstHostIp: '10.0.0.0',
+        lastHostIp: '10.0.0.0',
+        broadcastIp: '10.0.0.0',
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('ze')),
+      appBar: AppBar(title: const Text('Calculadora de sub-rede')),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: ListView(
           children: [
-            const Text(
-              'Subredes resultantes',
-              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-            ),
-            // IPs distribuidos = Soma IPs em subrede
-            // IPs restantes = distribuídos - utilizados
-            // IPs utilizados = Hosts + extras de infraestrutura
-
-            /* Subrede:
-              Total
-              Usáveis
-              Prefixo
-              Máscara
-              Ip de rede
-              1° Ip de Host
-              Último Ip de Host
-              // Ip de Vlan
-              // Ip de Gateway
-              Ip de broadcast
-             */
-          ],
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 8),
+                  child: Text(
+                    'Sub-redes resultantes',
+                    style:
+                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                PaddedCard(
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: const [
+                            Flexible(
+                              child: Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(
+                                  'IPs distribuídos nas sub-redes',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontWeight: FontWeight.w700),
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              child: Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(
+                                  'IPs restantes na rede',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontWeight: FontWeight.w700),
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              child: Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(
+                                  'IPs utilizados nas sub-redes',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontWeight: FontWeight.w700),
+                                ),
+                              ),
+                            ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: const [
+                        Text('100'),
+                        Text('100'),
+                        Text('100'),
+                      ],
+                    ),
+                  ],
+                )),
+              ] +
+              cards,
         ),
       ),
     );
   }
-
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:subnet_mask_calculator/components/components.dart';
 
 class InputScreen extends StatefulWidget {
   const InputScreen({super.key});
@@ -35,7 +36,7 @@ class _InputScreenState extends State<InputScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Subnet calculator'),
+        title: const Text('Calculadora de sub-rede'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -43,7 +44,7 @@ class _InputScreenState extends State<InputScreen> {
           // alignment: Alignment.center,
           children: [
             const Text(
-              'Definição de subredes',
+              'Definição de sub-redes',
               style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
             ),
             Form(
@@ -60,23 +61,15 @@ class _InputScreenState extends State<InputScreen> {
                     onPressed: () => setState(() {
                       subnetHostControllers.add(TextEditingController());
                       formWidgets.add(
-                        Card(
-                          elevation: 7,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                bottom: 12, left: 12, right: 12, top: 2,
+                        PaddedCard(
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              labelText:
+                                  'Número de hosts da sub-rede ${formWidgets.length - 1}:',
                             ),
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                labelText: 'Número de hosts da subrede ${formWidgets.length - 1}:',
-                              ),
-                              initialValue: '0',
-                              keyboardType: TextInputType.number,
-                              controller: subnetHostControllers.last,
-                            ),
+                            inputFormatters: [MaskTextInputFormatter(mask: '#' * 30)],
+                            keyboardType: TextInputType.number,
+                            controller: subnetHostControllers.last,
                           ),
                         ),
                       );
