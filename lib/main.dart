@@ -11,7 +11,7 @@ void main() {
       ChangeNotifierProvider(
         create: (context) => Subnets(),
       ),
-      ChangeNotifierProvider(create: (context)=>SubnetsControllers.length(1))
+      ChangeNotifierProvider(create: (context) => SubnetsControllers.length(1))
     ],
     child: const MyApp(),
   ));
@@ -29,7 +29,11 @@ class MyApp extends StatelessWidget {
         appBarTheme: const AppBarTheme(
           elevation: 10,
           backgroundColor: Colors.indigo,
-          titleTextStyle: TextStyle(color: Colors.white),
+          titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(50),
+                  bottomRight: Radius.circular(50))),
         ),
       ),
       darkTheme: ThemeData(
@@ -37,6 +41,7 @@ class MyApp extends StatelessWidget {
         primary: Color.fromARGB(255, 25, 40, 120),
         secondary: Color.fromARGB(255, 25, 40, 120),
       )),
+      themeMode: ThemeMode.light,
       debugShowCheckedModeBanner: false,
       initialRoute: '/input',
       routes: {

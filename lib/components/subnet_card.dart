@@ -1,127 +1,111 @@
 import 'package:flutter/material.dart';
 
 class SubnetCard extends StatelessWidget {
-  final int subnetNumber;
-  final String subnetIp;
-  final int totalIps;
-  final int usableIps;
-  final String prefix;
-  final String mask;
-  final String firstHostIp;
-  final String lastHostIp;
-  final String broadcastIp;
+  final int subnetNumber, totalIps, usableIps;
+  final String subnetIp, prefix, mask, firstHostIp, lastHostIp, broadcastIp;
 
   const SubnetCard(
-      {required this.subnetNumber,
-        required this.subnetIp,
-        required this.totalIps,
-        required this.usableIps,
-        required this.prefix,
-        required this.mask,
-        required this.firstHostIp,
-        required this.lastHostIp,
-        required this.broadcastIp,
-        super.key});
+      {required this.subnetIp,
+      required this.mask,
+      required this.prefix,
+      required this.subnetNumber,
+      required this.totalIps,
+      required this.usableIps,
+      required this.firstHostIp,
+      required this.lastHostIp,
+      required this.broadcastIp,
+      Key? key})
+      : super(key: key);
+
+  Map<String, dynamic> _toMap() {
+    return {
+      "Máscara de rede:": mask,
+      "Prefixo:": prefix,
+      "Total de IPs": totalIps,
+      "IPs usáveis:": usableIps,
+      "Primeiro IP de Host:": firstHostIp,
+      "Último IP de Host:": lastHostIp,
+      "IP de Broadcast:": broadcastIp,
+    };
+  }
+
+  List<Widget> _buildCardContent() {
+    return _toMap()
+        .entries
+        .map((entry) => Padding(
+              padding: const EdgeInsets.only(top: 1, bottom: 1),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.grey.withOpacity(0.1),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 5, right: 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(entry.key),
+                      Text(entry.value is String
+                          ? entry.value
+                          : entry.value.toString())
+                    ],
+                  ),
+                ),
+              ),
+            ))
+        .toList();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Card(
-        color: Theme.of(context).brightness == Brightness.light ?
-        Colors.white70 : Colors.black12,
-        elevation: 1,
+        color: Theme.of(context).brightness == Brightness.light
+            ? Colors.white
+            : Colors.black,
+        elevation: 5,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 6, horizontal: 6,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+            padding: const EdgeInsets.symmetric(
+              vertical: 6,
+              horizontal: 6,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 3),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.indigo.withOpacity(0.3),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              subnetIp,
+                              style: const TextStyle(
+                                  color: Colors.indigo, fontSize: 40),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      'Sub-rede $subnetNumber',
-                      style: const TextStyle(fontWeight: FontWeight.w700),
-                      softWrap: false,
-                      overflow: TextOverflow.visible,
-                    ),
-                    const Text(
-                      'IP da rede:',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontWeight: FontWeight.w700),
-                      softWrap: false,
-                      overflow: TextOverflow.visible,
-                    ),
-                    Text(
-                      subnetIp,
-                      softWrap: false,
-                      overflow: TextOverflow.visible,
+                      "IP de Rede",
+                      style: TextStyle(color: Colors.indigo, fontSize: 15),
                     ),
                   ],
                 ),
-              ),
-              const Spacer(flex: 1,),
-              Flexible(
-                flex: 2,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text('Total de IPs:',
-                      style: TextStyle(fontWeight: FontWeight.w700),
-                      softWrap: false,
-                      overflow: TextOverflow.visible,
-                    ),
-                    Text('IPs usáveis:',
-                      style: TextStyle(fontWeight: FontWeight.w700),
-                      softWrap: false,
-                      overflow: TextOverflow.visible,
-                    ),
-                    Text('Prefixo:',
-                      style: TextStyle(fontWeight: FontWeight.w700),
-                      softWrap: false,
-                      overflow: TextOverflow.visible,
-                    ),
-                    Text('Máscara:',
-                      style: TextStyle(fontWeight: FontWeight.w700),
-                      softWrap: false,
-                      overflow: TextOverflow.visible,
-                    ),
-                    Text('Primeiro IP para host:',
-                      style: TextStyle(fontWeight: FontWeight.w700),
-                      softWrap: false,
-                      overflow: TextOverflow.visible,
-                    ),
-                    Text('Último IP para host:',
-                      style: TextStyle(fontWeight: FontWeight.w700),
-                      softWrap: false,
-                      overflow: TextOverflow.visible,
-                    ),
-                    Text('IP de broadcast:',
-                      style: TextStyle(fontWeight: FontWeight.w700),
-                      softWrap: false,
-                      overflow: TextOverflow.visible,
-                    ),
-                  ],
-                ),
-              ),
-              Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text('$totalIps'),
-                    Text('$usableIps'),
-                    Text(prefix),
-                    Text(mask),
-                    Text(firstHostIp),
-                    Text(lastHostIp),
-                    Text(broadcastIp),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ));
+                ..._buildCardContent(),
+              ],
+            )));
   }
 }
