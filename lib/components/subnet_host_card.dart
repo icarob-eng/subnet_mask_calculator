@@ -15,8 +15,8 @@ class SubnetHostCard extends StatefulWidget {
 class _SubnetHostCardState extends State<SubnetHostCard> {
   bool _visible = false;
 
-  void _opacityTransition() {
-    Future.delayed(const Duration(milliseconds: 250), () {
+  void _opacityTransitionSimultaneously() {
+    Future.delayed(const Duration(milliseconds: 400), () {
       setState(() {
         _visible = !_visible;
       });
@@ -25,7 +25,7 @@ class _SubnetHostCardState extends State<SubnetHostCard> {
 
   @override
   void initState() {
-    _opacityTransition();
+    _opacityTransitionSimultaneously();
     super.initState();
   }
 
@@ -33,7 +33,7 @@ class _SubnetHostCardState extends State<SubnetHostCard> {
   Widget build(BuildContext context) {
     return AnimatedOpacity(
       opacity: _visible ? 1.0 : 0.0,
-      duration: const Duration(milliseconds: 125),
+      duration: const Duration(milliseconds: 200),
       child: Consumer<SubnetsControllers>(
         builder: (context, subnets, child) {
           return Dismissible(
@@ -108,9 +108,12 @@ class _SubnetHostCardState extends State<SubnetHostCard> {
                     IconButton(
                         onPressed: () {
                           if (subnets.length > 1) {
-                            _opacityTransition();
                             setState(() {
-                              subnets.removeAt(index: widget.index - 2);
+                              _visible = !_visible;
+                            });
+                            Future.delayed(const Duration(milliseconds: 400),
+                                () {
+                              subnets.removeAt(index: widget.index - 1);
                             });
                           }
                         },

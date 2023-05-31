@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:ipaddr/ipaddr.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:subnet_mask_calculator/models/subnets_controllers.dart';
 
+import '../components/my_navigation_bar.dart';
 import '../components/subnet_host_card.dart';
-import '../service/subnet_mask_to_prefix.dart';
 
 class InputScreen extends StatefulWidget {
   const InputScreen({super.key});
@@ -15,38 +14,22 @@ class InputScreen extends StatefulWidget {
 }
 
 class _InputScreenState extends State<InputScreen> {
-  TextEditingController initialIpController = TextEditingController(),
-      subnetMaskController = TextEditingController(),
-      initialPrefixController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-
-  void _updateSubnetMask() {
-    subnetMaskController.text =
-        prefixToSubnetMask(prefix: int.parse(initialPrefixController.text));
-  }
-
-  void _updatePrefix() {
-    initialPrefixController.text =
-        subnetMaskToPrefix(mask: subnetMaskController.text).toString();
-  }
 
   @override
   void initState() {
     super.initState();
-    subnetMaskController.addListener(_updatePrefix);
-    initialPrefixController.addListener(_updateSubnetMask);
   }
 
   @override
   void dispose() {
-    subnetMaskController.dispose();
-    initialPrefixController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       appBar: AppBar(
         title: const Text('Definição de sub-redes'),
         centerTitle: true,
@@ -56,6 +39,8 @@ class _InputScreenState extends State<InputScreen> {
           return Form(
             key: _formKey,
             child: ListView.builder(
+                physics: const BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics()),
                 padding: const EdgeInsets.all(20.0),
                 itemCount: subnetsControllers.length + 1,
                 itemBuilder: (context, index) {
@@ -79,7 +64,17 @@ class _InputScreenState extends State<InputScreen> {
                               inputFormatters: [
                                 MaskTextInputFormatter(mask: '###.###.###.###')
                               ],
-                              controller: initialIpController,
+                              controller:
+                                  subnetsControllers.initialIpController,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Preencha esse campo.";
+                                }
+                                if (value.length < 12) {
+                                  return "Informe o valor corretamente.";
+                                }
+                                return null;
+                              },
                             ),
                             Row(
                               children: [
@@ -96,33 +91,42 @@ class _InputScreenState extends State<InputScreen> {
                                         MaskTextInputFormatter(
                                             mask: "###.###.###.###")
                                       ],
-                                      controller: subnetMaskController,
-                                      onChanged: (_) {
-                                        initialPrefixController =
-                                            TextEditingController(
-                                                text: subnetMaskToPrefix(
-                                                        mask:
-                                                            subnetMaskController
-                                                                .text)
-                                                    .toString());
+                                      controller: subnetsControllers
+                                          .initialsubnetMaskController,
+                                      onChanged: (_) {},
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return "Preencha esse campo, por favor.";
+                                        }
+                                        if (value.length < 12) {
+                                          return "Preencha esse camo corretamente.";
+                                        }
+                                        return null;
                                       },
                                     )),
                                 const Spacer(),
                                 Expanded(
                                     flex: 3,
                                     child: TextFormField(
-                                        onTapOutside: (arg) =>
-                                            FocusScope.of(context).unfocus(),
-                                        decoration: const InputDecoration(
-                                            labelText: 'Prefixo:',
-                                            labelStyle: TextStyle(
-                                                overflow:
-                                                    TextOverflow.visible)),
-                                        keyboardType: TextInputType.number,
-                                        inputFormatters: [
-                                          MaskTextInputFormatter(mask: "/##")
-                                        ],
-                                        controller: initialPrefixController)),
+                                      onTapOutside: (arg) =>
+                                          FocusScope.of(context).unfocus(),
+                                      decoration: const InputDecoration(
+                                          labelText: 'Prefixo:',
+                                          errorMaxLines: 2,
+                                          errorStyle: TextStyle(fontSize: 9)),
+                                      keyboardType: TextInputType.number,
+                                      inputFormatters: [
+                                        MaskTextInputFormatter(mask: "/##")
+                                      ],
+                                      controller: subnetsControllers
+                                          .initialPrefixController,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return "Preencha esse campo.";
+                                        }
+                                        return null;
+                                      },
+                                    )),
                               ],
                             )
                           ],
@@ -136,26 +140,31 @@ class _InputScreenState extends State<InputScreen> {
           );
         },
       ),
+      bottomNavigationBar: const MyNavigationBar(),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton.small(
+            heroTag: UniqueKey(),
             onPressed: () {
               Provider.of<SubnetsControllers>(context, listen: false)
                   .increment(value: 1);
             },
+            tooltip: "Adicionar",
             child: const Icon(Icons.add),
           ),
           const SizedBox(
             height: 10,
           ),
           FloatingActionButton(
+            heroTag: UniqueKey(),
             onPressed: () {
               if (_formKey.currentState!.validate()) {
                 Navigator.pushNamed(context, '/output');
               }
             },
-            child: const Icon(Icons.play_arrow_outlined),
+            tooltip: "Ir",
+            child: const Icon(Icons.play_arrow),
           ),
         ],
       ),

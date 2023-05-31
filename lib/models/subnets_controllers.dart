@@ -1,32 +1,38 @@
 import 'package:flutter/material.dart';
 
-class SubnetsControllers extends ChangeNotifier{
+class SubnetsControllers extends ChangeNotifier {
+  TextEditingController initialIpController = TextEditingController(),
+      initialsubnetMaskController = TextEditingController(),
+      initialPrefixController = TextEditingController();
 
-  List<TextEditingController> controllers;
+  List<TextEditingController> cardHostsControllers;
 
-  SubnetsControllers({required this.controllers});
+  SubnetsControllers({required this.cardHostsControllers});
 
-  SubnetsControllers.length(int length):controllers=List<TextEditingController>.generate(length, (_) => TextEditingController());
+  SubnetsControllers.length(int length)
+      : cardHostsControllers = List<TextEditingController>.generate(
+            length, (_) => TextEditingController());
 
-  TextEditingController operator [](int index){
-    return controllers[index];
+  TextEditingController operator [](int index) {
+    return cardHostsControllers[index];
   }
 
-  void increment({int value=0}){
-    controllers.add(TextEditingController());
+  void increment({int value = 0}) {
+    for (int i = 1; i <= value; i++) {
+      cardHostsControllers.add(TextEditingController());
+    }
     notifyListeners();
   }
 
-  void removeAt({required int index}){
-    controllers.removeAt(index);
+  void removeAt({required int index}) {
+    cardHostsControllers.removeAt(index);
     notifyListeners();
   }
 
-  void removeLast(){
-    controllers.removeLast();
+  void removeLast() {
+    cardHostsControllers.removeLast();
     notifyListeners();
   }
 
-  int get length => controllers.length;
-
+  int get length => cardHostsControllers.length;
 }

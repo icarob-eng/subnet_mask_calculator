@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:subnet_mask_calculator/components/my_navigation_bar.dart';
 import '../components/subnet_card.dart';
 
 class OutputScreen extends StatefulWidget {
@@ -65,17 +66,14 @@ class _OutputScreen extends State<StatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Calculadora de sub-rede')),
+      extendBody: true,
+      appBar: AppBar(title: const Text('Sub-redes resultantes')),
       body: ListView(
-        padding: const EdgeInsets.all(20.0),
-        children: [
-              const Padding(
-                padding: EdgeInsets.only(bottom: 8),
-                child: Text(
-                  'Sub-redes resultantes',
-                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-                ),
-              ),
+        physics: const BouncingScrollPhysics(
+            parent: AlwaysScrollableScrollPhysics()),
+        padding:
+            const EdgeInsets.only(left: 20, top: 20, right: 20, bottom: 80),
+        children: <Widget>[
               Card(
                 elevation: 5,
                 shape: RoundedRectangleBorder(
@@ -133,6 +131,7 @@ class _OutputScreen extends State<StatefulWidget> {
             ] +
             cards,
       ),
+      bottomNavigationBar: const MyNavigationBar(),
     );
   }
 }

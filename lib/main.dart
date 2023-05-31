@@ -25,17 +25,24 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Subnet Calculator',
       theme: ThemeData(
-        primarySwatch: Colors.indigo,
-        appBarTheme: const AppBarTheme(
-          elevation: 10,
-          backgroundColor: Colors.indigo,
-          titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(50),
-                  bottomRight: Radius.circular(50))),
-        ),
-      ),
+          primarySwatch: Colors.indigo,
+          appBarTheme: const AppBarTheme(
+            elevation: 10,
+            backgroundColor: Colors.indigo,
+            titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(50),
+                    bottomRight: Radius.circular(50))),
+          ),
+          bottomNavigationBarTheme: BottomNavigationBarThemeData(
+              selectedIconTheme: const IconThemeData(color: Colors.indigo),
+              unselectedIconTheme:
+                  IconThemeData(color: Colors.indigo.withOpacity(0.4)),
+              selectedLabelStyle:
+                  const TextStyle(color: Colors.indigo, fontSize: 10),
+              unselectedLabelStyle: TextStyle(
+                  color: Colors.indigo.withOpacity(0.4), fontSize: 10))),
       darkTheme: ThemeData(
           colorScheme: const ColorScheme.dark(
         primary: Color.fromARGB(255, 25, 40, 120),
