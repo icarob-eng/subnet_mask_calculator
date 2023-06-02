@@ -6,40 +6,38 @@ import 'package:subnet_mask_calculator/models/subnets_controllers.dart';
 class SubnetHostCard extends StatefulWidget {
   final int index;
 
-  const SubnetHostCard({Key? key, required this.index}) : super(key: key);
+  final Animation<double> animation;
+
+  const SubnetHostCard({Key? key, required this.index, required this.animation})
+      : super(key: key);
 
   @override
   State<SubnetHostCard> createState() => _SubnetHostCardState();
 }
 
 class _SubnetHostCardState extends State<SubnetHostCard> {
-  bool _visible = false;
-
-  void _opacityTransitionSimultaneously() {
-    Future.delayed(const Duration(milliseconds: 400), () {
-      setState(() {
-        _visible = !_visible;
-      });
-    });
-  }
-
   @override
   void initState() {
-    _opacityTransitionSimultaneously();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedOpacity(
-      opacity: _visible ? 1.0 : 0.0,
-      duration: const Duration(milliseconds: 200),
+    return FadeTransition(
+      key: UniqueKey(),
+      opacity: widget.animation,
       child: Consumer<SubnetsControllers>(
         builder: (context, subnets, child) {
           return Dismissible(
             key: UniqueKey(),
             onDismissed: (direction) {
-              subnets.removeAt(index: widget.index - 1);
+              AnimatedList.of(context).removeItem(
+                  widget.index,
+                  (context, animation) => FadeTransition(
+                        opacity: animation,
+                        child: widget,
+                      ));
+              subnets.removeAt(index: widget.index);
             },
             direction: subnets.length >= 2
                 ? DismissDirection.horizontal
@@ -54,24 +52,21 @@ class _SubnetHostCardState extends State<SubnetHostCard> {
                   children: [
                     Flexible(
                       child: TextFormField(
-                        controller: subnets[widget.index - 1],
+                        controller: subnets[widget.index],
                         decoration: InputDecoration(
                             labelText:
-                                'Número de hosts da sub-rede ${widget.index}:',
+                                'Número de hosts da sub-rede ${widget.index + 1}:',
                             errorMaxLines: 3),
                         inputFormatters: [
                           MaskTextInputFormatter(mask: '#' * 3)
                         ],
                         keyboardType: TextInputType.number,
                         onChanged: (value) {
-                          if (widget.index - 1 == (subnets.length)) {
-                            if (value.isNotEmpty) {
-                              subnets.increment();
-                            } else if (value.isEmpty) {
-                              subnets.removeLast();
-                            }
+                          if (widget.index + 1 == (subnets.length) &&
+                              value.isNotEmpty) {
+                            subnets.increment();
                           } else if (value == "" &&
-                              widget.index - 1 == subnets.length - 1 &&
+                              widget.index + 1 == subnets.length &&
                               subnets[widget.index].text == "") {
                             subnets.removeLast();
                           }
@@ -108,13 +103,12 @@ class _SubnetHostCardState extends State<SubnetHostCard> {
                     IconButton(
                         onPressed: () {
                           if (subnets.length > 1) {
-                            setState(() {
-                              _visible = !_visible;
-                            });
-                            Future.delayed(const Duration(milliseconds: 400),
-                                () {
-                              subnets.removeAt(index: widget.index - 1);
-                            });
+                            AnimatedList.of(context).removeItem(
+                                widget.index, (context, animation) => widget);
+                            subnets.removeAt(index: widget.index);
+                            /* Future.delayed(const Duration(milliseconds: 200))
+                                .then((_) =>
+                                    subnets.removeAt(index: widget.index)); */
                           }
                         },
                         icon: const Icon(Icons.remove))

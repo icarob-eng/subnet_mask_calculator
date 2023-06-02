@@ -67,12 +67,13 @@ class _OutputScreen extends State<StatefulWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(title: const Text('Sub-redes resultantes')),
       body: ListView(
         physics: const BouncingScrollPhysics(
             parent: AlwaysScrollableScrollPhysics()),
         padding:
-            const EdgeInsets.only(left: 20, top: 20, right: 20, bottom: 80),
+            const EdgeInsets.only(left: 20, top: 100, right: 20, bottom: 80),
         children: <Widget>[
               Card(
                 elevation: 5,

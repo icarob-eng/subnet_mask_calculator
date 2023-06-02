@@ -16,6 +16,8 @@ class InputScreen extends StatefulWidget {
 class _InputScreenState extends State<InputScreen> {
   final _formKey = GlobalKey<FormState>();
 
+  final _animateKey = GlobalKey<AnimatedListState>();
+
   @override
   void initState() {
     super.initState();
@@ -29,6 +31,7 @@ class _InputScreenState extends State<InputScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       extendBody: true,
       appBar: AppBar(
         title: const Text('Definição de sub-redes'),
@@ -38,12 +41,14 @@ class _InputScreenState extends State<InputScreen> {
         builder: (context, subnetsControllers, child) {
           return Form(
             key: _formKey,
-            child: ListView.builder(
+            child: AnimatedList(
+                key: _animateKey,
                 physics: const BouncingScrollPhysics(
                     parent: AlwaysScrollableScrollPhysics()),
-                padding: const EdgeInsets.all(20.0),
-                itemCount: subnetsControllers.length + 1,
-                itemBuilder: (context, index) {
+                padding: const EdgeInsets.only(
+                    left: 20, bottom: 250, right: 20, top: 100),
+                initialItemCount: 2,
+                itemBuilder: (context, index, animation) {
                   if (index == 0) {
                     return Card(
                       elevation: 10,
@@ -55,8 +60,8 @@ class _InputScreenState extends State<InputScreen> {
                         child: Column(
                           children: [
                             TextFormField(
-                              onTapOutside: (arg) =>
-                                  FocusScope.of(context).unfocus(),
+                              // onTapOutside: (arg) =>
+                              //     FocusScope.of(context).unfocus(),
                               decoration: const InputDecoration(
                                 labelText: 'IP inicial:',
                               ),
@@ -81,8 +86,8 @@ class _InputScreenState extends State<InputScreen> {
                                 Expanded(
                                     flex: 7,
                                     child: TextFormField(
-                                      onTapOutside: (arg) =>
-                                          FocusScope.of(context).unfocus(),
+                                      // onTapOutside: (arg) =>
+                                      //     FocusScope.of(context).unfocus(),
                                       decoration: const InputDecoration(
                                           labelText:
                                               'Máscara da rede primária:'),
@@ -108,8 +113,8 @@ class _InputScreenState extends State<InputScreen> {
                                 Expanded(
                                     flex: 3,
                                     child: TextFormField(
-                                      onTapOutside: (arg) =>
-                                          FocusScope.of(context).unfocus(),
+                                      // onTapOutside: (arg) =>
+                                      //     FocusScope.of(context).unfocus(),
                                       decoration: const InputDecoration(
                                           labelText: 'Prefixo:',
                                           errorMaxLines: 2,
@@ -134,7 +139,10 @@ class _InputScreenState extends State<InputScreen> {
                       ),
                     );
                   } else {
-                    return SubnetHostCard(index: index);
+                    return SubnetHostCard(
+                        key: UniqueKey(),
+                        index: index - 1,
+                        animation: animation);
                   }
                 }),
           );
@@ -149,6 +157,9 @@ class _InputScreenState extends State<InputScreen> {
             onPressed: () {
               Provider.of<SubnetsControllers>(context, listen: false)
                   .increment(value: 1);
+              _animateKey.currentState?.insertItem(
+                  Provider.of<SubnetsControllers>(context, listen: false)
+                      .length);
             },
             tooltip: "Adicionar",
             child: const Icon(Icons.add),
