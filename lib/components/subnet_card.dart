@@ -95,9 +95,9 @@ class SubnetCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
+                  children: const [
                     Text(
                       "IP de Rede",
                       style: TextStyle(color: Colors.indigo, fontSize: 15),
