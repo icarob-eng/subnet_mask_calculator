@@ -120,7 +120,7 @@ class _OutputScreen extends State<StatefulWidget> {
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: const [
+                          children: [
                             Text('100'),
                             Text('100'),
                             Text('100'),
