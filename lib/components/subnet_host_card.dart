@@ -4,7 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:subnet_mask_calculator/models/subnets_controllers.dart';
 
 class SubnetHostCard extends StatefulWidget {
-  final int index;
+  final int index;  // index of the data at the SubnetControllers
+  // (not at the InputScreen AnimatedList
 
   final Animation<double> animation;
 
@@ -52,7 +53,9 @@ class _SubnetHostCardState extends State<SubnetHostCard> {
                   children: [
                     Flexible(
                       child: TextFormField(
-                        controller: subnets[widget.index],
+                        controller:
+                        widget.index >= subnets.cardHostsControllers.length ?
+                        null : subnets[widget.index],
                         decoration: InputDecoration(
                             labelText:
                                 'Número de hosts da sub-rede ${widget.index + 1}:',
@@ -62,14 +65,14 @@ class _SubnetHostCardState extends State<SubnetHostCard> {
                         ],
                         keyboardType: TextInputType.number,
                         onChanged: (value) {
-                          if (widget.index + 1 == (subnets.length) &&
-                              value.isNotEmpty) {
-                            subnets.increment();
-                          } else if (value == "" &&
-                              widget.index + 1 == subnets.length &&
-                              subnets[widget.index].text == "") {
-                            subnets.removeLast();
-                          }
+                          // if (widget.index + 1 == (subnets.length) &&
+                          //     value.isNotEmpty) {
+                          //   subnets.increment();
+                          // } else if (value == "" &&
+                          //     widget.index + 1 == subnets.length &&
+                          //     subnets[widget.index].text == "") {
+                          //   subnets.removeLast();
+                          // }
                         },
                         validator: (value) {
                           try {
@@ -105,10 +108,10 @@ class _SubnetHostCardState extends State<SubnetHostCard> {
                           if (subnets.length > 1) {
                             AnimatedList.of(context).removeItem(
                                 widget.index, (context, animation) => widget);
-                            subnets.removeAt(index: widget.index);
                             /* Future.delayed(const Duration(milliseconds: 200))
                                 .then((_) =>
                                     subnets.removeAt(index: widget.index)); */
+                            subnets.removeAt(index: widget.index);
                           }
                         },
                         icon: const Icon(Icons.remove))
