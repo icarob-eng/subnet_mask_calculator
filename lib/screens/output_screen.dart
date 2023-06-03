@@ -79,13 +79,13 @@ class _OutputScreen extends State<StatefulWidget> {
                 elevation: 5,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
-                child: Padding(
-                    padding: const EdgeInsets.all(12),
+                child: const Padding(
+                    padding: EdgeInsets.all(12),
                     child: Column(
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: const [
+                          children: [
                             Flexible(
                               child: Padding(
                                 padding: EdgeInsets.all(8.0),
@@ -120,7 +120,7 @@ class _OutputScreen extends State<StatefulWidget> {
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: const [
+                          children: [
                             Text('100'),
                             Text('100'),
                             Text('100'),
