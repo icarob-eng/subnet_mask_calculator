@@ -59,11 +59,6 @@ class SubnetCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        color: Theme.of(context).brightness == Brightness.light
-            ? Colors.white
-            : Colors.black,
-        elevation: 5,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: Padding(
             padding: const EdgeInsets.symmetric(
               vertical: 6,

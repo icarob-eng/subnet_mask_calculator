@@ -75,11 +75,8 @@ class _OutputScreen extends State<StatefulWidget> {
         padding:
             const EdgeInsets.only(left: 20, top: 100, right: 20, bottom: 80),
         children: <Widget>[
-              Card(
-                elevation: 5,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                child: const Padding(
+              const Card(
+                child: Padding(
                     padding: EdgeInsets.all(12),
                     child: Column(
                       children: [

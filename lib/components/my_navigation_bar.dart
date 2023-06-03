@@ -48,12 +48,20 @@ class _MyNavigationBar extends State<MyNavigationBar> {
                       null;
                     }
                     if (currentIndex == 1 &&
-                        _isAlredyInRoute(router: "/input")) {
-                      Navigator.of(context).pushNamed("/input");
+                        !_isAlredyInRoute(router: "/input")) {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        '/input',
+                        (Route<dynamic> route) => false,
+                      );
                     }
                     if (currentIndex == 2 &&
-                        _isAlredyInRoute(router: "/output")) {
-                      Navigator.of(context).pushNamed("/output");
+                        !_isAlredyInRoute(router: "/output")) {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        '/output',
+                        (Route<dynamic> route) => false,
+                      );
                     }
                     if (currentIndex == 3) {
                       null;
@@ -64,7 +72,7 @@ class _MyNavigationBar extends State<MyNavigationBar> {
                   items: const [
                     BottomNavigationBarItem(
                       icon: Icon(Icons.settings_outlined),
-                      label: "Configurações",
+                      label: "Opções",
                       activeIcon: Icon(Icons.settings),
                     ),
                     BottomNavigationBarItem(

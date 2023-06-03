@@ -43,9 +43,6 @@ class _SubnetHostCardState extends State<SubnetHostCard> {
                 ? DismissDirection.horizontal
                 : DismissDirection.none,
             child: Card(
-              elevation: 5,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
               child: Padding(
                 padding: const EdgeInsets.all(12),
                 child: Row(
@@ -104,7 +101,8 @@ class _SubnetHostCardState extends State<SubnetHostCard> {
                         onPressed: () {
                           if (subnets.length > 1) {
                             AnimatedList.of(context).removeItem(
-                                widget.index, (context, animation) => widget);
+                                widget.index + 1,
+                                (context, animation) => widget);
                             subnets.removeAt(index: widget.index);
                             /* Future.delayed(const Duration(milliseconds: 200))
                                 .then((_) =>

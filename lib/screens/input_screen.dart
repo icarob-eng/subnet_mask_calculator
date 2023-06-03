@@ -51,9 +51,6 @@ class _InputScreenState extends State<InputScreen> {
                 itemBuilder: (context, index, animation) {
                   if (index == 0) {
                     return Card(
-                      elevation: 10,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
                       child: Padding(
                         padding: const EdgeInsets.only(
                             top: 0, left: 12, right: 12, bottom: 12),
