@@ -26,6 +26,10 @@ class _MyNavigationBar extends State<MyNavigationBar> {
     return 0;
   }
 
+  bool _isAlredyInRoute({required String router}) {
+    return ModalRoute.of(context)?.settings.name == router;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -43,10 +47,12 @@ class _MyNavigationBar extends State<MyNavigationBar> {
                     if (currentIndex == 0) {
                       null;
                     }
-                    if (currentIndex == 1) {
+                    if (currentIndex == 1 &&
+                        _isAlredyInRoute(router: "/input")) {
                       Navigator.of(context).pushNamed("/input");
                     }
-                    if (currentIndex == 2) {
+                    if (currentIndex == 2 &&
+                        _isAlredyInRoute(router: "/output")) {
                       Navigator.of(context).pushNamed("/output");
                     }
                     if (currentIndex == 3) {
