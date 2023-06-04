@@ -50,8 +50,7 @@ class MyApp extends StatelessWidget {
               selectedIconTheme: const IconThemeData(color: Colors.indigo),
               unselectedIconTheme:
                   IconThemeData(color: Colors.indigo.withOpacity(0.4)),
-              selectedLabelStyle:
-                  const TextStyle(color: Colors.indigo, fontSize: 10),
+              selectedLabelStyle: const TextStyle(color: Colors.indigo),
               unselectedLabelStyle: TextStyle(
                   color: Colors.indigo.withOpacity(0.4), fontSize: 10)),
           cardTheme: CardTheme(

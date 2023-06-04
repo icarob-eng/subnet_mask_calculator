@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ipaddr/ipaddr.dart';
+import 'package:subnet_mask_calculator/models/network_data.dart';
 
 class SubnetsControllers extends ChangeNotifier {
   TextEditingController initialIpController = TextEditingController(),
@@ -35,4 +37,12 @@ class SubnetsControllers extends ChangeNotifier {
   }
 
   int get length => cardHostsControllers.length;
+
+  NetworkData get data {
+    return NetworkData(
+        networkData: IPv4Network(
+            initialIpController.text + initialPrefixController.text),
+        subnetsData:
+            cardHostsControllers.map((e) => IPv4Interface(e.text)).toList());
+  }
 }

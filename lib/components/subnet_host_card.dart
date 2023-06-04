@@ -53,19 +53,18 @@ class _SubnetHostCardState extends State<SubnetHostCard> {
                       inputFormatters: [MaskTextInputFormatter(mask: '#' * 3)],
                       keyboardType: TextInputType.number,
                       onChanged: (value) {
-                        /* if (widget.index == subnets.length - 1) {
-                          if (value.isNotEmpty) {
-                            subnets.increment(value: 1);
-                            AnimatedList.of(context)
-                                .insertItem(subnets.length);
-                          } else {
-                            subnets.removeLast();
-                            AnimatedList.of(context).removeItem(
-                                subnets.length,
-                                (context, animation) => widget);
-                          }
-                        } */
+                        if (widget.index == subnets.length - 1 &&
+                            value.isNotEmpty) {
+                          subnets.increment(value: 1);
+                          AnimatedList.of(context).insertItem(subnets.length);
+                        } else if (widget.index == subnets.length - 2 &&
+                            value.isEmpty) {
+                          subnets.removeLast();
+                          AnimatedList.of(context).removeItem(
+                              subnets.length, (context, animation) => widget);
+                        }
                       },
+                      autofocus: true,
                       validator: (value) {
                         try {
                           if (value == null || value.isEmpty) {

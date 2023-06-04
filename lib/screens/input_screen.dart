@@ -60,8 +60,6 @@ class _InputScreenState extends State<InputScreen> {
                         builder: (context, value, child) => Column(
                           children: [
                             TextFormField(
-                              // onTapOutside: (arg) =>
-                              //     FocusScope.of(context).unfocus(),
                               decoration: const InputDecoration(
                                 labelText: 'IP inicial:',
                               ),
@@ -85,15 +83,16 @@ class _InputScreenState extends State<InputScreen> {
                                 Expanded(
                                     flex: 7,
                                     child: TextFormField(
-                                      // onTapOutside: (arg) =>
-                                      //     FocusScope.of(context).unfocus(),
                                       decoration: const InputDecoration(
                                           labelText:
                                               'Máscara da rede primária:'),
                                       keyboardType: TextInputType.number,
                                       inputFormatters: [
                                         MaskTextInputFormatter(
-                                            mask: "###.###.###.###")
+                                            mask: "###.###.###.###",
+                                            filter: {
+                                              "#": RegExp(r'[0-9]'),
+                                            })
                                       ],
                                       controller:
                                           value.initialsubnetMaskController,
@@ -112,15 +111,17 @@ class _InputScreenState extends State<InputScreen> {
                                 Expanded(
                                     flex: 3,
                                     child: TextFormField(
-                                      // onTapOutside: (arg) =>
-                                      //     FocusScope.of(context).unfocus(),
                                       decoration: const InputDecoration(
                                           labelText: 'Prefixo:',
                                           errorMaxLines: 2,
                                           errorStyle: TextStyle(fontSize: 9)),
                                       keyboardType: TextInputType.number,
                                       inputFormatters: [
-                                        MaskTextInputFormatter(mask: "/##")
+                                        MaskTextInputFormatter(
+                                            mask: "/##",
+                                            filter: {
+                                              "#": RegExp(r'[0-9]'),
+                                            })
                                       ],
                                       controller: value.initialPrefixController,
                                       validator: (value) {
