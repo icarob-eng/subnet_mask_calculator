@@ -37,7 +37,7 @@ class SubnetCard extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Colors.grey.withOpacity(0.1),
+                  color: Colors.black.withOpacity(0.1),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.only(left: 5, right: 5),

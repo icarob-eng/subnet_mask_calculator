@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
-import 'package:subnet_mask_calculator/models/subnets_controllers.dart';
+import 'package:subnet_mask_calculator/providers/subnets_controllers.dart';
 
 import '../components/my_navigation_bar.dart';
 import '../components/subnet_host_card.dart';
@@ -35,26 +35,29 @@ class _InputScreenState extends State<InputScreen> {
       extendBody: true,
       appBar: AppBar(
         title: const Text('Definição de sub-redes'),
-        centerTitle: true,
       ),
-      body: Consumer<SubnetsControllers>(
-        builder: (context, subnetsControllers, child) {
-          return Form(
-            key: _formKey,
-            child: AnimatedList(
-                key: _animateKey,
-                physics: const BouncingScrollPhysics(
-                    parent: AlwaysScrollableScrollPhysics()),
-                padding: const EdgeInsets.only(
-                    left: 20, bottom: 250, right: 20, top: 100),
-                initialItemCount: 2,
-                itemBuilder: (context, index, animation) {
-                  if (index == 0) {
-                    return Card(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 0, left: 12, right: 12, bottom: 12),
-                        child: Column(
+      body: Form(
+        key: _formKey,
+        child: AnimatedList(
+            key: _animateKey,
+            physics: const BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics()),
+            padding: const EdgeInsets.only(
+                left: 20, bottom: 250, right: 20, top: 100),
+            initialItemCount:
+                Provider.of<SubnetsControllers>(context).length > 1
+                    ? Provider.of<SubnetsControllers>(context).length + 1
+                    : 2,
+            itemBuilder: (context, index, animation) {
+              if (index == 0) {
+                return FadeTransition(
+                  opacity: Tween(begin: 0.0, end: 1.0).animate(animation),
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          top: 0, left: 12, right: 12, bottom: 12),
+                      child: Consumer<SubnetsControllers>(
+                        builder: (context, value, child) => Column(
                           children: [
                             TextFormField(
                               // onTapOutside: (arg) =>
@@ -66,8 +69,7 @@ class _InputScreenState extends State<InputScreen> {
                               inputFormatters: [
                                 MaskTextInputFormatter(mask: '###.###.###.###')
                               ],
-                              controller:
-                                  subnetsControllers.initialIpController,
+                              controller: value.initialIpController,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return "Preencha esse campo.";
@@ -93,8 +95,8 @@ class _InputScreenState extends State<InputScreen> {
                                         MaskTextInputFormatter(
                                             mask: "###.###.###.###")
                                       ],
-                                      controller: subnetsControllers
-                                          .initialsubnetMaskController,
+                                      controller:
+                                          value.initialsubnetMaskController,
                                       onChanged: (_) {},
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
@@ -120,8 +122,7 @@ class _InputScreenState extends State<InputScreen> {
                                       inputFormatters: [
                                         MaskTextInputFormatter(mask: "/##")
                                       ],
-                                      controller: subnetsControllers
-                                          .initialPrefixController,
+                                      controller: value.initialPrefixController,
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
                                           return "Preencha esse campo.";
@@ -134,16 +135,14 @@ class _InputScreenState extends State<InputScreen> {
                           ],
                         ),
                       ),
-                    );
-                  } else {
-                    return SubnetHostCard(
-                        key: UniqueKey(),
-                        index: index - 1,
-                        animation: animation);
-                  }
-                }),
-          );
-        },
+                    ),
+                  ),
+                );
+              } else {
+                return SubnetHostCard(
+                    key: UniqueKey(), index: index - 1, animation: animation);
+              }
+            }),
       ),
       bottomNavigationBar: const MyNavigationBar(),
       floatingActionButton: Column(
@@ -156,7 +155,8 @@ class _InputScreenState extends State<InputScreen> {
                   .increment(value: 1);
               _animateKey.currentState?.insertItem(
                   Provider.of<SubnetsControllers>(context, listen: false)
-                      .length);
+                      .length,
+                  duration: const Duration(milliseconds: 400));
             },
             tooltip: "Adicionar",
             child: const Icon(Icons.add),

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:subnet_mask_calculator/models/subnets.dart';
-import 'package:subnet_mask_calculator/models/subnets_controllers.dart';
+import 'package:subnet_mask_calculator/providers/subnets.dart';
+import 'package:subnet_mask_calculator/providers/subnets_controllers.dart';
+import 'package:subnet_mask_calculator/providers/theme_manager.dart';
 import 'package:subnet_mask_calculator/screens/input_screen.dart';
 import 'package:subnet_mask_calculator/screens/output_screen.dart';
+import 'package:subnet_mask_calculator/screens/settings_screen.dart';
 
 void main() {
   runApp(MultiProvider(
@@ -11,7 +13,8 @@ void main() {
       ChangeNotifierProvider(
         create: (context) => Subnets(),
       ),
-      ChangeNotifierProvider(create: (context) => SubnetsControllers.length(1))
+      ChangeNotifierProvider(create: (context) => SubnetsControllers.length(1)),
+      ChangeNotifierProvider(create: (context) => ThemeManager()),
     ],
     child: const MyApp(),
   ));
@@ -27,11 +30,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           textTheme: const TextTheme(
             bodyLarge: TextStyle(color: Colors.indigoAccent),
-            bodyMedium: TextStyle(color: Colors.white, fontSize: 17),
+            bodyMedium: TextStyle(color: Colors.black, fontSize: 17),
             bodySmall: TextStyle(color: Colors.indigoAccent),
           ),
           primarySwatch: Colors.indigo,
           appBarTheme: const AppBarTheme(
+            centerTitle: true,
             elevation: 10,
             backgroundColor: Colors.indigo,
             titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
@@ -84,19 +88,23 @@ class MyApp extends StatelessWidget {
           appBarTheme: const AppBarTheme(
             elevation: 10,
             centerTitle: true,
-            backgroundColor: Colors.indigo,
+            backgroundColor: Colors.indigoAccent,
             titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(50),
                     bottomRight: Radius.circular(50))),
+          ),
+          listTileTheme: ListTileThemeData(
+            textColor: Colors.white.withOpacity(0.6),
           )),
-      themeMode: ThemeMode.system,
+      themeMode: Provider.of<ThemeManager>(context).state,
       debugShowCheckedModeBanner: false,
       initialRoute: '/input',
       routes: {
         '/input': (context) => const InputScreen(),
         '/output': (context) => const OutputScreen(),
+        '/settings': (context) => const SettingsScreen(),
       },
     );
   }

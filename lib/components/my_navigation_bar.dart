@@ -44,8 +44,13 @@ class _MyNavigationBar extends State<MyNavigationBar> {
               borderRadius: const BorderRadius.all(Radius.circular(100)),
               child: BottomNavigationBar(
                   onTap: (currentIndex) {
-                    if (currentIndex == 0) {
-                      null;
+                    if (currentIndex == 0 &&
+                        !_isAlredyInRoute(router: '/settings')) {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        '/settings',
+                        (Route<dynamic> route) => false,
+                      );
                     }
                     if (currentIndex == 1 &&
                         !_isAlredyInRoute(router: "/input")) {
