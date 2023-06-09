@@ -3,9 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:subnet_mask_calculator/providers/subnets.dart';
 import 'package:subnet_mask_calculator/providers/subnets_controllers.dart';
 import 'package:subnet_mask_calculator/providers/theme_manager.dart';
-import 'package:subnet_mask_calculator/screens/input_screen.dart';
-import 'package:subnet_mask_calculator/screens/output_screen.dart';
-import 'package:subnet_mask_calculator/screens/settings_screen.dart';
+import 'package:subnet_mask_calculator/screens/home_screen.dart';
 
 void main() {
   runApp(MultiProvider(
@@ -99,12 +97,7 @@ class MyApp extends StatelessWidget {
           )),
       themeMode: Provider.of<ThemeManager>(context).state,
       debugShowCheckedModeBanner: false,
-      initialRoute: '/input',
-      routes: {
-        '/input': (context) => const InputScreen(),
-        '/output': (context) => const OutputScreen(),
-        '/settings': (context) => const SettingsScreen(),
-      },
+      home: const HomeScreen(),
     );
   }
 }
