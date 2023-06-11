@@ -1,4 +1,3 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:subnet_mask_calculator/screens/settings_screen.dart';
 
@@ -40,22 +39,8 @@ class _HomeScreen extends State<HomeScreen> {
       extendBody: true,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-          /* title: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 400),
-        transitionBuilder: (Widget child, Animation<double> animation) {
-          return SlideTransition(
-            position: Tween<Offset>(
-              begin: const Offset(0.0, -1.0),
-              end: Offset.zero,
-            ).animate(animation),
-            child: FadeTransition(
-              opacity: animation,
-              child: _appBarTitles[_currentIndex],
-            ),
-          );
-        },
-      ) */
-          ),
+        title: _appBarTitles[_currentIndex],
+      ),
       body: PageView(
           onPageChanged: (index) {
             setState(() {
