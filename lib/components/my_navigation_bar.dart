@@ -68,8 +68,13 @@ class _MyNavigationBar extends State<MyNavigationBar> {
                         (Route<dynamic> route) => false,
                       );
                     }
-                    if (currentIndex == 3) {
-                      null;
+                    if (currentIndex == 3 &&
+                        !_isAlredyInRoute(router: "/study")) {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        '/study',
+                        (Route<dynamic> route) => false,
+                      );
                     }
                   },
                   currentIndex: _currentRouter(),

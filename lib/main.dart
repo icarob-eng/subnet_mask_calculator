@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:subnet_mask_calculator/providers/study_provider.dart';
 import 'package:subnet_mask_calculator/providers/subnets.dart';
 import 'package:subnet_mask_calculator/providers/subnets_controllers.dart';
 import 'package:subnet_mask_calculator/providers/theme_manager.dart';
 import 'package:subnet_mask_calculator/screens/input_screen.dart';
 import 'package:subnet_mask_calculator/screens/output_screen.dart';
 import 'package:subnet_mask_calculator/screens/settings_screen.dart';
+import 'package:subnet_mask_calculator/screens/study_screen.dart';
 
 void main() {
   runApp(MultiProvider(
@@ -15,6 +17,7 @@ void main() {
       ),
       ChangeNotifierProvider(create: (context) => SubnetsControllers.length(1)),
       ChangeNotifierProvider(create: (context) => ThemeManager()),
+      ChangeNotifierProvider(create: (context) => StudyProvider())
     ],
     child: const MyApp(),
   ));
@@ -57,7 +60,9 @@ class MyApp extends StatelessWidget {
               color: Colors.white,
               elevation: 10,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)))),
+                  borderRadius: BorderRadius.circular(10))),
+          inputDecorationTheme:
+              const InputDecorationTheme(fillColor: Colors.white)),
       darkTheme: ThemeData(
           textTheme: TextTheme(
             bodyLarge: const TextStyle(color: Colors.indigoAccent),
@@ -96,7 +101,9 @@ class MyApp extends StatelessWidget {
           ),
           listTileTheme: ListTileThemeData(
             textColor: Colors.white.withOpacity(0.6),
-          )),
+          ),
+          inputDecorationTheme:
+              const InputDecorationTheme(fillColor: Color(0xff404040))),
       themeMode: Provider.of<ThemeManager>(context).state,
       debugShowCheckedModeBanner: false,
       initialRoute: '/input',
@@ -104,6 +111,7 @@ class MyApp extends StatelessWidget {
         '/input': (context) => const InputScreen(),
         '/output': (context) => const OutputScreen(),
         '/settings': (context) => const SettingsScreen(),
+        '/study': (context) => const StudyScreen(),
       },
     );
   }

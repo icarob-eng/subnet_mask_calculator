@@ -1,0 +1,46 @@
+name: StudyFolder
+sections:
+  - title: O que é um host?
+    content: |
+      Host é qualquer aparelho que esteja conectado à uma rede.
+      São exemplos disso: Smartfones, computadores, SmartTVs, IoT.
+    see also: null
+  - title: O que é uma NIC?
+    content: |
+      NIC é a sigla em inglês para Network Interface Card, em tradução livre:
+      Placa de interface de rede. É o componente responsável por intermediar a 
+      conexão entre um aperelho e a interface de rede; esse último podendo ser um cabo Ethernet CAT 5, 
+      5e ou 6 com uma conexão RJ-45.
+    see also: null
+  - title: O que é um ISP?
+    content: |
+      ISP é a sigla para Internet Service Provider, em tradução livre,
+      Provedor de Serviços à Internet; são serviços passíveis de contratação que 
+      fornecem conexão à internet.
+    see also: null
+  - title: O que é um WISP?
+    content: |
+      WISP é a sigla para Wireless Service Provider, consistem em um ISP feito por intermédio de ondas de
+      radiofrequência, isto é, é um provedor que se comunica com os hosts por meio de wifi.
+    see also: null
+  - title: O que é um Host intermediário?
+    content: |
+      Hosts itermediários são os responsáveis por permitir o tráfego de datagramas ao longo de uma
+      rede, com base nas informações contidas nos datagramas enviados pelos hosts finais os dispositivos
+      interediários são acapazes de determinar o caminho pelo qual o dado deve fluir ao longo da rede.
+  - title: O que é LAN?
+    content: |
+      LAN é a denominação dada a uma rede que interconecta dispositivos finais, 
+      é gerenciado por uma única organização, ou pessoa, e fornece uma largura de banda de alta 
+      velocidade.
+    see also: null
+  - title: O que é WAN?
+    content: |
+      WAN, ao contrário da LAN, é gerenciada por diversas empresas, abrange uma área maior e 
+      interconecta LANs, em uma largura de banda amiudada.
+    see also: null
+  - title: Posso atribuir uma máscara variável para uma rede?
+    content: |
+      Não. Os valores aceitáveis para cada um dos quatro octetos são: 0, 128, 192, 224, 240, 248, 252, 254, 255,
+      valores diferentes não são aceitados.
+    see also: null
